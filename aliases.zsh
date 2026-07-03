@@ -28,8 +28,6 @@ alias df='df -h'
 # Navigation
 # =========================================================
 
-alias -- -='cd -'  # -- prevents - being parsed as a flag; cd - jumps to previous directory
-
 lf() { # zsh follow lf navigation
     tmp=$(mktemp)
     command lf -last-dir-path="$tmp" "$@"
@@ -44,7 +42,7 @@ lf() { # zsh follow lf navigation
 # Editor
 # =========================================================
 
-alias vim='nvim'
+
 
 # =========================================================
 # Git
