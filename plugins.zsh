@@ -15,6 +15,17 @@ _zplugin_load() {
   source "${plugin_path}/${2}.plugin.zsh"
 }
 
+_zplugin_load_file() {
+  local file_path="${ZPLUGINDIR}/${2}"
+  if [[ ! -f "$file_path" ]]; then
+    mkdir -p "$ZPLUGINDIR"
+    echo "Installing ${2}..."
+    curl -fsSL "$1" -o "$file_path" \
+      || { echo "ERROR: failed to install ${2}" >&2; return 1; }
+  fi
+  source "$file_path"
+}
+
 zplugin-update() {
   local dir
   for dir in "${ZPLUGINDIR}"/*/; do
@@ -22,6 +33,10 @@ zplugin-update() {
     git -C "$dir" pull --ff-only
   done
 }
+
+_zplugin_load_file \
+  "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/git/git.plugin.zsh" \
+  git.plugin.zsh
 
 _zplugin_load zsh-users zsh-autosuggestions
 _zplugin_load zsh-users zsh-history-substring-search
